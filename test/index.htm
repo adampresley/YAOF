@@ -1,0 +1,94 @@
+<!DOCTYPE>
+<html>
+<head>
+	<title>Example Using YAOF</title>
+
+	<script type="text/javascript" src="../src/YAOF.min.js"></script>
+</head>
+
+<body>
+	<h2>Instructions:</h2>
+	<p>
+		Fill in your name and click the button. When you do a message/event
+		named "greeting.requested" will be <strong>published</strong> from the JavaScript object
+		This object is also <strong>listening</strong>, or <strong>subscribed</strong>  
+		to the "greeting.requested" event. When the function registered for the "greeting.requested" 
+		is executed the bottom text box is updated with a greeting message.
+	</p>
+
+	<hr />
+
+	<strong>Name:</strong> <input type="text" id="yourName" maxlength="50" /><br />
+	<button type="button" id="btnSayHi">Request Greeting</button>
+
+	<hr />
+
+	<input type="text" id="response" />
+
+
+	<script type="text/javascript">
+		/*
+		 * Create all of our objects that handle stuff like page interaction,
+		 * publisher and listener demonstration
+		 */
+		var PageInterface = function() {
+			this.yourNameEl = document.getElementById("yourName");
+			this.buttonEl = document.getElementById("btnSayHi");
+			this.responseEl = document.getElementById("response");
+
+			var 
+				__init = function() {
+					__this.yourNameEl.focus();
+
+					/*
+					 * Attach a function to handle the click of the Request Greeting
+					 * button. This will "publish" the "greeting.request" message/event.
+					 */
+					__this.buttonEl.onclick = function() {
+						__this.publish("greeting.requested", {
+							name: __this.yourNameEl.value
+						});
+					};
+
+
+					/*
+					 * Subscribe to the "greeting.request" message/event. Subscribers do not have
+					 * to be in the same object as the publisher, and can live in any object that
+					 * implements YAOF.
+					 */
+					__this.subscribe("greeting.requested", __onGreetingRequested);
+				},
+
+
+				__onGreetingRequested = function(data) {
+					__this.responseEl.value = "Greetings " + data.name;
+				},
+
+
+				/*
+				 * Keep a copy of the current object's scope.
+				 */
+				__this = this;
+
+
+			/*
+			 * Call the __init() method to set everything up.
+			 */
+			__init();
+		};
+		YAOF.attach(PageInterface);
+
+
+
+		/*
+		 * Instantiate and setup stuff 
+		 */
+		var 
+			page = null;
+
+		window.onload = function() {
+			page = new PageInterface();
+		};
+	</script>
+</body>
+</html>
