@@ -18,26 +18,30 @@ Observer pattern goodness. How? Here is a sample object in JavaScript that
 uses the YAOF object to publish and subscribe to events.
 
 ```
-var MyObjectDefinition1 = function() {
-	this.DoSomethingFun = function() {
-		/* Look out, I'm doing something fun. */
-		this.publish("some.fun.message", { name: "SomethingFun", key: "Whatever", otherwise: "Put what you want", count: 15 });
+<script type="text/javascript" src="/resources/js/YAOF.min.js"></script>
+
+<script type="text/javascript">
+	var MyObjectDefinition1 = function() {
+		this.DoSomethingFun = function() {
+			/* Look out, I'm doing something fun. */
+			this.publish("some.fun.message", { name: "SomethingFun", key: "Whatever", otherwise: "Put what you want", count: 15 });
+		};
 	};
-};
-YAOF.attach(MyObjectDefinition1);
+	YAOF.attach(MyObjectDefinition1);
 
 
-var MyObjectDefinition2 = function() {
-	this.subscribe("some.fun.message", this.IListenWell);
+	var MyObjectDefinition2 = function() {
+		this.subscribe("some.fun.message", this.IListenWell);
 
-	this.IListenWell = function(data) {
-		alert(data.name);
-		alert(data.key);
-		alert(data.otherwise);
-		alert(count);
+		this.IListenWell = function(data) {
+			alert(data.name);
+			alert(data.key);
+			alert(data.otherwise);
+			alert(count);
+		};
 	};
-};
-YAOF.attach(MyObjectDefinition2);
+	YAOF.attach(MyObjectDefinition2);
+</script>
 ```
 
 
