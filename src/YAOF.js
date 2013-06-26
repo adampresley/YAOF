@@ -86,7 +86,7 @@ YAOF = function() {
 	};
 
 	var
-		__this = this;
+		self = this;
 };
 
 
@@ -94,4 +94,5 @@ YAOF.listeners = {};
 
 YAOF.attach = function(baseObject) {
 	baseObject.prototype = new YAOF();
+	baseObject.prototype.constructor = baseObject;
 };

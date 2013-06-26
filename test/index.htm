@@ -31,63 +31,52 @@
 		 * Create all of our objects that handle stuff like page interaction,
 		 * publisher and listener demonstration
 		 */
-		var PageInterface = function() {
-			this.yourNameEl = document.getElementById("yourName");
-			this.buttonEl = document.getElementById("btnSayHi");
-			this.responseEl = document.getElementById("response");
-
-			var 
-				__init = function() {
-					__this.yourNameEl.focus();
-
-					/*
-					 * Attach a function to handle the click of the Request Greeting
-					 * button. This will "publish" the "greeting.request" message/event.
-					 */
-					__this.buttonEl.onclick = function() {
-						__this.publish("greeting.requested", {
-							name: __this.yourNameEl.value
-						});
-					};
-
-
-					/*
-					 * Subscribe to the "greeting.request" message/event. Subscribers do not have
-					 * to be in the same object as the publisher, and can live in any object that
-					 * implements YAOF.
-					 */
-					__this.subscribe("greeting.requested", __onGreetingRequested);
-				},
-
-
-				__onGreetingRequested = function(data) {
-					__this.responseEl.value = "Greetings " + data.name;
-				},
-
-
-				/*
-				 * Keep a copy of the current object's scope.
-				 */
-				__this = this;
+		var PageController = function() {
+			/**
+			 * updateResponseEl
+			 * Takes in a name and sets the response DOM element to a greeting with
+			 * that name.
+			 */
+			this.updateResponseEl = function(name) {
+				_responseEl.value = "Greetings " + name;
+			};
 
 
 			/*
-			 * Call the __init() method to set everything up.
+			 * Private variables and methods
 			 */
-			__init();
+			var
+				_yourNameEl = document.getElementById("yourName"),
+				_buttonEl = document.getElementById("btnSayHi"),
+				_responseEl = document.getElementById("response"),
+
+				self = this;
+
+
+			/* 
+			 * Constructor
+			 */
+			_yourNameEl.focus();
+			self.subscribe("greeting.requested", function(data) { self.updateResponseEl(data.name); });
+
+			_buttonEl.onclick = function() {
+				self.publish("greeting.requested", { name: _yourNameEl.value });
+			};
 		};
-		YAOF.attach(PageInterface);
+
+		/*
+		 * Attach the YAOF object to this so we have access
+		 * to the publish and subscribe methods.
+		 */
+		YAOF.attach(PageController);
 
 
 
 		/*
 		 * Instantiate and setup stuff 
 		 */
-		var 
-			page = null;
-
 		window.onload = function() {
-			page = new PageInterface();
+			new PageController();
 		};
 	</script>
 </body>
