@@ -9,7 +9,7 @@ in your JavaScript objects.
 First things first. After downloading YAOF place a copy of the YAOF.js or YAOF.min.js file
 into whatever place you have for JavaScript resources and include it on your pages, like so:
 
-```
+```javascript
 <script type="text/javascript" src="/resources/js/YAOF.min.js"></script>
 ```
 
@@ -17,7 +17,7 @@ You now have access to the YAOF object which provides what you need to begin
 Observer pattern goodness. How? Here is a sample object in JavaScript that 
 uses the YAOF object to publish and subscribe to events.
 
-```
+```javascript
 <script type="text/javascript" src="/resources/js/YAOF.min.js"></script>
 
 <script type="text/javascript">
